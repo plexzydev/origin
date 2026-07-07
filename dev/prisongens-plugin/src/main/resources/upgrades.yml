@@ -1,0 +1,87 @@
+# ═══════════════════════════════════════════════════════════
+# PrisonGens - Mejoras permanentes de isla
+# currency: MONEY | TOKENS
+# cost(level) = base-cost * (cost-multiplier ^ level)
+# ═══════════════════════════════════════════════════════════
+
+upgrades:
+  ISLAND_SIZE:
+    display: "Tamaño de Isla"
+    icon: GRASS_BLOCK
+    description: "Aumenta el área de tu isla (+10 bloques por nivel)."
+    max-level: 10
+    currency: MONEY
+    base-cost: 10000
+    cost-multiplier: 1.8
+  FEED_CAPACITY:
+    display: "Capacidad de Alimentación"
+    icon: HOPPER
+    description: "Tu GEN puede absorber +5 GENS por nivel."
+    max-level: 20
+    currency: TOKENS
+    base-cost: 2000
+    cost-multiplier: 1.5
+  MAX_MEMBERS:
+    display: "Miembros de Isla"
+    icon: PLAYER_HEAD
+    description: "+1 miembro máximo por nivel."
+    max-level: 9
+    currency: MONEY
+    base-cost: 5000
+    cost-multiplier: 1.6
+  SPAWNER_LIMIT:
+    display: "Límite de Spawners"
+    icon: SPAWNER
+    description: "+2 spawners por nivel."
+    max-level: 15
+    currency: MONEY
+    base-cost: 8000
+    cost-multiplier: 1.5
+  HOPPER_LIMIT:
+    display: "Límite de Hoppers"
+    icon: HOPPER_MINECART
+    description: "+5 hoppers por nivel."
+    max-level: 15
+    currency: MONEY
+    base-cost: 3000
+    cost-multiplier: 1.4
+  RESET_TIME:
+    display: "Reset de Mina"
+    icon: CLOCK
+    description: "Reduce 5s el tiempo de reset por nivel."
+    max-level: 10
+    currency: TOKENS
+    base-cost: 3000
+    cost-multiplier: 1.6
+  MINE_HEIGHT:
+    display: "Altura de Mina"
+    icon: SCAFFOLDING
+    description: "+1 de profundidad extra por nivel."
+    max-level: 8
+    currency: TOKENS
+    base-cost: 5000
+    cost-multiplier: 1.7
+  STORAGE:
+    display: "Almacenamiento"
+    icon: CHEST
+    description: "+100 espacios de materiales por nivel."
+    max-level: 20
+    currency: MONEY
+    base-cost: 4000
+    cost-multiplier: 1.4
+  ROBOT_SLOTS:
+    display: "Slots de Robots"
+    icon: IRON_GOLEM_SPAWN_EGG
+    description: "+1 robot activo por nivel."
+    max-level: 8
+    currency: TOKENS
+    base-cost: 10000
+    cost-multiplier: 2.0
+  PET_SLOTS:
+    display: "Mascotas (Próximamente)"
+    icon: BONE
+    description: "Mejora futura para mascotas."
+    max-level: 0
+    currency: MONEY
+    base-cost: 999999
+    cost-multiplier: 1.0

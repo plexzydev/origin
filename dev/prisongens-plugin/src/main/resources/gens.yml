@@ -1,0 +1,74 @@
+# ═══════════════════════════════════════════════════════════
+# PrisonGens - Configuración de GENS
+# Un GEN es una mina completa: ítem físico con nivel, XP,
+# capacidad de alimentación y progreso propio.
+# ═══════════════════════════════════════════════════════════
+
+# XP necesaria por nivel: xp_para_subir = base-xp-per-level * nivel_actual
+base-xp-per-level: 100
+
+# XP que otorga un GEN al ser usado como alimento, según la
+# relación de tier entre el GEN comida y el GEN principal.
+feed-xp:
+  # comida de tier IGUAL al principal
+  equal-multiplier: 1.0
+  # comida de tier INFERIOR (por cada tier de diferencia se reduce)
+  lower-multiplier: 0.35
+  # comida de tier SUPERIOR (por cada tier de diferencia aumenta)
+  higher-multiplier: 2.5
+
+categories:
+  INICIAL:
+    tier: 1
+    display: "GEN Inicial"
+    color: "§7"
+    icon: COBBLESTONE
+    base-feed-capacity: 10
+    max-stage: 3
+    feed-base-xp: 100
+    price: 1000
+  HIERRO:
+    tier: 2
+    display: "GEN de Hierro"
+    color: "§f"
+    icon: RAW_IRON
+    base-feed-capacity: 15
+    max-stage: 4
+    feed-base-xp: 250
+    price: 5000
+  ORO:
+    tier: 3
+    display: "GEN de Oro"
+    color: "§6"
+    icon: RAW_GOLD
+    base-feed-capacity: 20
+    max-stage: 5
+    feed-base-xp: 600
+    price: 15000
+  DIAMANTE:
+    tier: 4
+    display: "GEN de Diamante"
+    color: "§b"
+    icon: DIAMOND
+    base-feed-capacity: 30
+    max-stage: 6
+    feed-base-xp: 1500
+    price: 50000
+  ESMERALDA:
+    tier: 5
+    display: "GEN de Esmeralda"
+    color: "§a"
+    icon: EMERALD
+    base-feed-capacity: 40
+    max-stage: 7
+    feed-base-xp: 4000
+    price: 150000
+  NETHERITE:
+    tier: 6
+    display: "GEN de Netherite"
+    color: "§4"
+    icon: NETHERITE_SCRAP
+    base-feed-capacity: 60
+    max-stage: 8
+    feed-base-xp: 10000
+    price: 500000

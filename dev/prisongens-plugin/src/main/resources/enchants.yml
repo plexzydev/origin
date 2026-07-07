@@ -1,0 +1,30 @@
+# ═══════════════════════════════════════════════════════════
+# PrisonGens - Encantamientos personalizados del pico
+# Cada encantamiento puede sobreescribir: max-level, base-cost,
+# cost-per-level, base-chance, chance-per-level
+# ═══════════════════════════════════════════════════════════
+
+# Presupuesto de partículas por tick (anti-lag)
+particle-budget: 120
+
+enchants:
+  EXPLOSION:        { max-level: 50,  base-cost: 1000,  cost-per-level: 250 }
+  MEGA_EXPLOSION:   { max-level: 25,  base-cost: 8000,  cost-per-level: 1500 }
+  TORMENTA:         { max-level: 30,  base-cost: 5000,  cost-per-level: 800 }
+  TALADRO:          { max-level: 40,  base-cost: 3000,  cost-per-level: 500 }
+  LASER:            { max-level: 40,  base-cost: 4000,  cost-per-level: 600 }
+  NUCLEO:           { max-level: 20,  base-cost: 12000, cost-per-level: 2500 }
+  METEORITO:        { max-level: 20,  base-cost: 10000, cost-per-level: 2000 }
+  VOLCAN:           { max-level: 15,  base-cost: 15000, cost-per-level: 3000 }
+  TSUNAMI:          { max-level: 15,  base-cost: 15000, cost-per-level: 3000 }
+  CADENA:           { max-level: 35,  base-cost: 3500,  cost-per-level: 550 }
+  TRITURADORA:      { max-level: 30,  base-cost: 6000,  cost-per-level: 900 }
+  VACIO:            { max-level: 10,  base-cost: 25000, cost-per-level: 6000 }
+  IMPLOSION:        { max-level: 20,  base-cost: 9000,  cost-per-level: 1800 }
+  COLAPSO:          { max-level: 10,  base-cost: 30000, cost-per-level: 8000 }
+  DUPLICADOR:       { max-level: 25,  base-cost: 7000,  cost-per-level: 1200 }
+  TOKEN_GREED:      { max-level: 50,  base-cost: 2000,  cost-per-level: 300 }
+  MONEY_GREED:      { max-level: 50,  base-cost: 2000,  cost-per-level: 300 }
+  COMPRESOR:        { max-level: 1,   base-cost: 20000, cost-per-level: 0 }
+  MAGNETICO:        { max-level: 1,   base-cost: 10000, cost-per-level: 0 }
+  MINERIA_INTELIGENTE: { max-level: 20, base-cost: 8000, cost-per-level: 1500 }
