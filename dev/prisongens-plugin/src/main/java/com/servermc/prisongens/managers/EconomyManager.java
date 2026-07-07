@@ -92,6 +92,10 @@ public class EconomyManager {
         getOrCreate(player.getUniqueId())[type] += amount;
     }
 
+    public void addBalance(UUID uuid, int type, double amount) {
+        getOrCreate(uuid)[type] += amount;
+    }
+
     public boolean removeBalance(Player player, int type, double amount) {
         double[] bal = getOrCreate(player.getUniqueId());
         if (bal[type] < amount) return false;
