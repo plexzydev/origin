@@ -82,20 +82,34 @@ public class NPCClickListener implements Listener {
     }
 
     private void checkNPCClick(Player player, int entityId) {
+        // NPC de GENS (Administrador de Minas)
         for (Map.Entry<UUID, FakePlayerNPC> entry : plugin.getIslandManager().getAllNPCs().entrySet()) {
             if (entry.getValue().getEntityId() == entityId) {
                 UUID islandOwner = entry.getKey();
-                // Run on main thread
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    // Check if player owns this island
                     var island = plugin.getIslandManager().getIsland(player);
                     if (island != null && island.owner.equals(islandOwner)) {
-                        plugin.getGensManager().openGensMenu(player);
+                        new com.servermc.prisongens.gui.MineAdminMenu(plugin, player).open();
                     } else {
                         player.sendMessage("§c§l✖ §7Esta no es tu isla.");
                     }
                 });
-                break;
+                return;
+            }
+        }
+        // NPC de ROBOTS (Administrador de Robots)
+        for (Map.Entry<UUID, FakePlayerNPC> entry : plugin.getIslandManager().getAllRobotNPCs().entrySet()) {
+            if (entry.getValue().getEntityId() == entityId) {
+                UUID islandOwner = entry.getKey();
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    var island = plugin.getIslandManager().getIsland(player);
+                    if (island != null && island.owner.equals(islandOwner)) {
+                        new com.servermc.prisongens.gui.RobotAdminMenu(plugin, player).open();
+                    } else {
+                        player.sendMessage("§c§l✖ §7Esta no es tu isla.");
+                    }
+                });
+                return;
             }
         }
     }

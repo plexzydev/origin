@@ -28,9 +28,10 @@ public class IslandManager {
     private final Map<String, UUID> tagIndex = new ConcurrentHashMap<>();
     // NPC entity IDs per island owner
     private final Map<UUID, FakePlayerNPC> islandNPCs = new ConcurrentHashMap<>();
+    private final Map<UUID, FakePlayerNPC> robotNPCs = new ConcurrentHashMap<>();
 
     private static final int ISLAND_SPACING = 500;
-    private static final int ISLAND_Y = 100;
+    public static final int ISLAND_Y = 100;
     private static final int PLATFORM_HALF = 20;
 
     // ═══ Island Data ═══
@@ -157,11 +158,16 @@ public class IslandManager {
 
         islands.remove(player.getUniqueId());
         tagIndex.remove(island.tag.toLowerCase());
-        plugin.getGensManager().deleteGens(player.getUniqueId());
+        plugin.getMineManager().deleteMine(player.getUniqueId());
+        plugin.getRobotManager().deleteRobots(player.getUniqueId());
+        plugin.getUpgradeManager().deleteUpgrades(player.getUniqueId());
+        plugin.getHologramManager().removeMineHologram(player.getUniqueId());
 
-        // Remove NPC
+        // Remove NPCs
         FakePlayerNPC npc = islandNPCs.remove(player.getUniqueId());
         if (npc != null) npc.destroy();
+        FakePlayerNPC robotNpc = robotNPCs.remove(player.getUniqueId());
+        if (robotNpc != null) robotNpc.destroy();
 
         removeWorldBorder(player);
         
@@ -236,66 +242,57 @@ public class IslandManager {
         world.getBlockAt(cx - 2, y + 2, npcZ + 2).setType(Material.LANTERN);
         world.getBlockAt(cx + 2, y + 2, npcZ + 2).setType(Material.LANTERN);
 
-        // Spawn NPC with player's skin
+        // NPC de GENS (Administrador de Minas) con la skin del jugador
         Location npcLoc = new Location(world, cx + 0.5, y + 1, npcZ + 0.5);
         npcLoc.setYaw(180f);
         spawnGensNPC(island, npcLoc, owner.getName());
 
-        // Mine area (south of spawn, -10z offset) - initially empty, will be filled by gens
-        buildMineShell(island, 5); // Default minimum mine size
+        // Plataforma y NPC de ROBOTS (Administrador de Robots) al lado
+        int robotX = cx + 6;
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                world.getBlockAt(robotX + x, y, npcZ + z).setType(Material.POLISHED_BLACKSTONE);
+            }
+        }
+        world.getBlockAt(robotX - 2, y + 1, npcZ - 2).setType(Material.SOUL_LANTERN);
+        world.getBlockAt(robotX + 2, y + 1, npcZ - 2).setType(Material.SOUL_LANTERN);
+        Location robotNpcLoc = new Location(world, robotX + 0.5, y + 1, npcZ + 0.5);
+        robotNpcLoc.setYaw(180f);
+        spawnRobotsNPC(island, robotNpcLoc, owner.getName());
+
+        // Zona reservada de la mina (al sur, MINE_OFFSET_Z): marco decorativo vacío.
+        buildMineZoneMarker(island);
     }
 
-    /**
-     * Build or rebuild the bedrock mine shell based on radius.
-     */
-    public void buildMineShell(IslandData island, int radius) {
+    /** Marco decorativo alrededor de la zona reservada para la mina. */
+    public void buildMineZoneMarker(IslandData island) {
         World world = islandWorld;
         Location center = island.getCenter(world);
         int cx = center.getBlockX();
-        int cz = center.getBlockZ() - 10; // South offset
+        int cz = center.getBlockZ() + com.servermc.prisongens.mine.MineManager.MINE_OFFSET_Z;
         int y = ISLAND_Y;
-        int depth = 15;
+        int r = 4;
 
-        // Clear old mine area (max possible)
-        for (int x = -18; x <= 18; x++) {
-            for (int z = -18; z <= 18; z++) {
-                for (int d = -depth - 1; d <= 2; d++) {
-                    Material mat = world.getBlockAt(cx + x, y + d, cz + z).getType();
-                    if (mat == Material.BEDROCK || mat == Material.OAK_FENCE) {
-                        world.getBlockAt(cx + x, y + d, cz + z).setType(Material.AIR);
-                    }
+        // Puente desde la isla hasta la zona de mina
+        for (int z = -PLATFORM_HALF; z >= com.servermc.prisongens.mine.MineManager.MINE_OFFSET_Z + r + 1; z--) {
+            world.getBlockAt(cx, y, cz - com.servermc.prisongens.mine.MineManager.MINE_OFFSET_Z + z).setType(Material.STONE_BRICKS);
+            world.getBlockAt(cx - 1, y, cz - com.servermc.prisongens.mine.MineManager.MINE_OFFSET_Z + z).setType(Material.STONE_BRICKS);
+            world.getBlockAt(cx + 1, y, cz - com.servermc.prisongens.mine.MineManager.MINE_OFFSET_Z + z).setType(Material.STONE_BRICKS);
+        }
+
+        // Anillo del marco
+        for (int x = -r; x <= r; x++) {
+            for (int z = -r; z <= r; z++) {
+                boolean edge = Math.abs(x) == r || Math.abs(z) == r;
+                if (edge) {
+                    world.getBlockAt(cx + x, y, cz + z).setType(Material.POLISHED_DEEPSLATE);
                 }
             }
         }
-
-        int r = Math.max(3, Math.min(radius, 16));
-
-        // Build bedrock walls
-        for (int x = -(r + 1); x <= (r + 1); x++) {
-            for (int z = -(r + 1); z <= (r + 1); z++) {
-                boolean isWall = Math.abs(x) == r + 1 || Math.abs(z) == r + 1;
-
-                if (isWall) {
-                    for (int d = 0; d <= depth; d++) {
-                        world.getBlockAt(cx + x, y - d, cz + z).setType(Material.BEDROCK);
-                    }
-                    world.getBlockAt(cx + x, y + 1, cz + z).setType(Material.OAK_FENCE);
-                } else {
-                    for (int d = 0; d < depth; d++) {
-                        world.getBlockAt(cx + x, y - d, cz + z).setType(Material.AIR);
-                    }
-                    world.getBlockAt(cx + x, y - depth, cz + z).setType(Material.BEDROCK);
-                }
-            }
-        }
-    }
-
-    /**
-     * Get the mine center location for an island.
-     */
-    public Location getMineCenter(IslandData island) {
-        Location center = island.getCenter(islandWorld);
-        return new Location(islandWorld, center.getBlockX(), ISLAND_Y, center.getBlockZ() - 10);
+        world.getBlockAt(cx - r, y + 1, cz - r).setType(Material.LANTERN);
+        world.getBlockAt(cx + r, y + 1, cz - r).setType(Material.LANTERN);
+        world.getBlockAt(cx - r, y + 1, cz + r).setType(Material.LANTERN);
+        world.getBlockAt(cx + r, y + 1, cz + r).setType(Material.LANTERN);
     }
 
     private void clearIslandArea(IslandData island) {
@@ -331,8 +328,23 @@ public class IslandManager {
         }
     }
 
+    public void spawnRobotsNPC(IslandData island, Location loc, String skinName) {
+        try {
+            FakePlayerNPC npc = new FakePlayerNPC(loc, skinName, plugin);
+            robotNPCs.put(island.owner, npc);
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                npc.showTo(p);
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning("Error spawning robot NPC: " + e.getMessage());
+        }
+    }
+
     public void showNPCsTo(Player player) {
         for (FakePlayerNPC npc : islandNPCs.values()) {
+            npc.showTo(player);
+        }
+        for (FakePlayerNPC npc : robotNPCs.values()) {
             npc.showTo(player);
         }
     }
@@ -345,6 +357,14 @@ public class IslandManager {
         return islandNPCs;
     }
 
+    public Map<UUID, FakePlayerNPC> getAllRobotNPCs() {
+        return robotNPCs;
+    }
+
+    public Set<UUID> getAllIslandOwners() {
+        return islands.keySet();
+    }
+
     // ═══ World Border ═══
 
     public void applyWorldBorder(Player player, IslandData island) {
@@ -352,9 +372,9 @@ public class IslandManager {
         Location center = island.getCenter(islandWorld);
         border.setCenter(center);
 
-        // Calculate border size based on gens mine size
-        int mineRadius = plugin.getGensManager().calculateMineRadius(player.getUniqueId());
-        int borderSize = Math.max(50, (PLATFORM_HALF + mineRadius + 5) * 2);
+        // Tamaño del borde según la mejora de tamaño de isla (debe cubrir la zona de mina)
+        int islandSize = plugin.getUpgradeManager().getIslandSize(player.getUniqueId());
+        int borderSize = Math.max(160, islandSize * 2 + Math.abs(com.servermc.prisongens.mine.MineManager.MINE_OFFSET_Z) * 2 + 40);
         border.setSize(borderSize);
         border.setWarningDistance(0);
         border.setDamageAmount(0);

@@ -1,0 +1,11 @@
+# ═══════════════════════════════════════════════════════════
+# PrisonGens - Configuración global
+# ═══════════════════════════════════════════════════════════
+
+# Tamaño base de la isla (ancho total en bloques)
+island-base-size: 50
+# Bloques extra por nivel de mejora ISLAND_SIZE
+island-size-per-level: 10
+
+# Autosave (ticks)
+autosave-ticks: 6000

@@ -1,0 +1,67 @@
+# ═══════════════════════════════════════════════════════════
+# PrisonGens - Configuración de ROBOTS
+# ═══════════════════════════════════════════════════════════
+
+# ¿Los robots generan ingresos con el dueño desconectado?
+offline-earnings: false
+
+# Multiplicador global de ingresos
+income-multiplier: 1.0
+
+# Efecto visual: romper bloques reales de la mina (1 bloque por robot por ciclo)
+visual-mining: true
+
+categories:
+  COMUN:
+    tier: 1
+    display: "Robot Común"
+    color: "§7"
+    icon: IRON_GOLEM_SPAWN_EGG
+    base-money-per-sec: 5.0
+    base-token-chance: 0.02
+    max-level: 25
+    upgrade-base-cost: 500
+  RARO:
+    tier: 2
+    display: "Robot Raro"
+    color: "§9"
+    icon: IRON_GOLEM_SPAWN_EGG
+    base-money-per-sec: 15.0
+    base-token-chance: 0.04
+    max-level: 40
+    upgrade-base-cost: 1500
+  EPICO:
+    tier: 3
+    display: "Robot Épico"
+    color: "§5"
+    icon: IRON_GOLEM_SPAWN_EGG
+    base-money-per-sec: 45.0
+    base-token-chance: 0.08
+    max-level: 60
+    upgrade-base-cost: 5000
+  LEGENDARIO:
+    tier: 4
+    display: "Robot Legendario"
+    color: "§6"
+    icon: IRON_GOLEM_SPAWN_EGG
+    base-money-per-sec: 120.0
+    base-token-chance: 0.15
+    max-level: 80
+    upgrade-base-cost: 15000
+  MITICO:
+    tier: 5
+    display: "Robot Mítico"
+    color: "§c"
+    icon: IRON_GOLEM_SPAWN_EGG
+    base-money-per-sec: 300.0
+    base-token-chance: 0.25
+    max-level: 100
+    upgrade-base-cost: 50000
+
+# Requisito de etapa de mina para usar robots de cada tier
+mine-stage-requirement:
+  1: 0
+  2: 2
+  3: 3
+  4: 5
+  5: 6
