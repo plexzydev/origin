@@ -1,0 +1,68 @@
+# ═══════════════════════════════════════════
+#   LobbyCore - Configuración Principal
+#   Origin Network
+# ═══════════════════════════════════════════
+
+# ─── Scoreboard ───
+scoreboard:
+  # Título que aparece arriba del scoreboard
+  title: ORIGIN
+  # IP del servidor que aparece abajo
+  server-ip: mc.origin.net
+  # Rango por defecto para nuevos jugadores
+  default-rank: Mortal
+
+# ─── Lobby ───
+lobby:
+  # Protecciones del lobby
+  disable-hunger: true
+  disable-damage: true
+  disable-block-break: true
+  disable-block-place: true
+
+# ─── Auth ───
+auth:
+  # Tiempo máximo para autenticarse (segundos, 0 = sin límite)
+  timeout: 60
+  # Longitud mínima de contraseña
+  min-password-length: 4
+  # Longitud máxima de contraseña
+  max-password-length: 32
+cosmetics:
+  owned:
+    234271b8-dee9-3563-97bb-77710c59ce0f:
+    - WATER_RINGS
+    - CHERRY_WIND
+    - NOTE_CLOUD
+    - GOLDEN_WARRIOR
+    - MINI_DRAGON
+    - WHITE_KNIGHT
+    - SNOW_AURA
+    - ENCHANT_HALO
+    - CRIMSON_GUARD
+    - MINI_SKELETON
+    - EMERALD_SPIRAL
+    - DISCO_ARMOR
+    - ENDER_AURA
+    - SMOKE_WINGS
+    - LAVA_RAIN
+    - MINI_CLONE
+    - MINI_NOTCH
+    - MINI_CREEPER
+    - FOREST_HUNTER
+    - MINI_GHOST
+    - DARK_KNIGHT
+    - MINI_ZOMBIE
+    - HEART_AURA
+    - MINI_KING
+    - MAGIC_WIND
+    - BLOOD_SPIRAL
+    - RAINBOW_ARMOR
+    - MINI_DEMON
+    - AQUA_DIVER
+    - FLAME_WINGS
+  active:
+    234271b8-dee9-3563-97bb-77710c59ce0f:
+    - CRIMSON_GUARD
+    - CHERRY_WIND
+    - MINI_DRAGON

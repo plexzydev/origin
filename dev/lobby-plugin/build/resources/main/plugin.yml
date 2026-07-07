@@ -1,0 +1,39 @@
+name: LobbyCore
+version: '1.0.0'
+main: com.servermc.lobby.LobbyCore
+api-version: '1.21'
+description: ServerMC - Lobby Core Plugin
+author: ServerMC
+
+commands:
+  setspawn:
+    description: Establece el punto de spawn del lobby
+    usage: /setspawn
+    permission: lobby.admin
+  login:
+    description: Inicia sesion en el servidor
+    usage: /login <contraseña>
+  register:
+    description: Registra tu cuenta en el servidor
+    usage: /register <contraseña> <contraseña>
+  npc:
+    description: Gestiona los NPCs del lobby
+    usage: /npc <create|delete|list|setserver>
+    permission: lobby.admin
+  lobbyadmin:
+    description: Comandos de administracion del lobby
+    usage: /lobbyadmin <reload>
+    permission: lobby.admin
+  cosmetics:
+    description: Abre el menu de cosmeticos
+    usage: /cosmetics
+    aliases: [cos, cosmeticos]
+  coins:
+    description: Comandos de administracion de monedas
+    usage: /coins <give|remove|set|check|balance>
+    aliases: [monedas]
+
+permissions:
+  lobby.admin:
+    description: Permiso de administrador del lobby
+    default: op

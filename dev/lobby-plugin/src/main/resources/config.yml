@@ -1,0 +1,30 @@
+# ═══════════════════════════════════════════
+#   LobbyCore - Configuración Principal
+#   Origin Network
+# ═══════════════════════════════════════════
+
+# ─── Scoreboard ───
+scoreboard:
+  # Título que aparece arriba del scoreboard
+  title: "ORIGIN"
+  # IP del servidor que aparece abajo
+  server-ip: "origin.net"
+  # Rango por defecto para nuevos jugadores
+  default-rank: "Mortal"
+
+# ─── Lobby ───
+lobby:
+  # Protecciones del lobby
+  disable-hunger: true
+  disable-damage: true
+  disable-block-break: true
+  disable-block-place: true
+
+# ─── Auth ───
+auth:
+  # Tiempo máximo para autenticarse (segundos, 0 = sin límite)
+  timeout: 60
+  # Longitud mínima de contraseña
+  min-password-length: 4
+  # Longitud máxima de contraseña
+  max-password-length: 32

@@ -1,0 +1,14 @@
+npcs:
+  '420':
+    display-name: Prisión Gens
+    server: prisongens
+    skin: coldifield
+    world: world
+    x: -2.4426752362718966
+    y: -59.0
+    z: 35.5711185327927
+    yaw: 177.60095
+    pitch: -0.45004427
+    hologram-lines:
+    - '&6&lPrisión Gens'
+    - '&7Click para jugar'

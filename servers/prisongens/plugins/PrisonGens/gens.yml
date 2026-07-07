@@ -1,0 +1,18 @@
+gens:
+  234271b8-dee9-3563-97bb-77710c59ce0f:
+    '0':
+      type: IRON
+      level: 1
+      placed: true
+    '1':
+      type: GOLD
+      level: 1
+      placed: true
+    '2':
+      type: DIAMOND
+      level: 1
+      placed: true
+    '3':
+      type: NETHERITE
+      level: 1
+      placed: true

@@ -1,0 +1,24 @@
+name: PrisonGens
+version: '1.0.0'
+main: com.servermc.prisongens.PrisonGens
+api-version: '1.21'
+description: Origin Network - Prison Gens Gamemode
+author: Origin
+
+commands:
+  is:
+    description: Comando principal de islas
+    usage: /is <create|home|invite|settings>
+    aliases: [island, isla]
+  economy:
+    description: Administrar economía
+    usage: /economy <give|remove|set|check> <player> <type> <amount>
+    permission: prisongens.admin
+  sell:
+    description: Vender items del inventario
+    usage: /sell <all|hand>
+
+permissions:
+  prisongens.admin:
+    description: Permiso de administrador
+    default: op

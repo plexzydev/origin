@@ -1,0 +1,58 @@
+network_compression_threshold: 256
+remote_ping_timeout: 5000
+remote_ping_cache: -1
+online_mode: false
+forge_support: false
+max_packets_per_second: 4096
+listeners:
+- query_port: 25565
+  motd: '&b&lOrigin Network &7- &aServidor No Premium'
+  tab_list: GLOBAL_PING
+  query_enabled: false
+  proxy_protocol: false
+  forced_hosts:
+    origin.net: lobby
+  ping_passthrough: false
+  priorities:
+  - lobby
+  bind_local_address: true
+  host: 0.0.0.0:25565
+  max_players: 100
+  tab_size: 60
+  force_default_server: true
+disabled_commands:
+- disabledcommandhere
+max_packets_data_per_second: 33554432
+player_limit: 100
+reject_transfers: false
+log_commands: false
+connection_throttle_limit: 3
+prevent_proxy_connections: false
+connection_throttle: 4000
+log_pings: true
+groups:
+  IgnacioPro:
+  - admin
+stats: 2e8b233a-449f-4310-928d-2a81282ec617
+servers:
+  lobby:
+    motd: '&bOrigin Network - Lobby'
+    address: localhost:25566
+    restricted: false
+  prisongens:
+    motd: '&bOrigin Network - Prision Gens'
+    address: localhost:25567
+    restricted: false
+permissions:
+  default:
+  - bungeecord.command.server
+  - bungeecord.command.list
+  admin:
+  - bungeecord.command.alert
+  - bungeecord.command.end
+  - bungeecord.command.ip
+  - bungeecord.command.reload
+ip_forward: true
+enforce_secure_profile: false
+server_connect_timeout: 5000
+timeout: 30000

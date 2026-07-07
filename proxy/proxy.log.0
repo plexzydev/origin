@@ -1,0 +1,341 @@
+02:11:41 [INFO] Using standard Java JCE cipher.
+02:11:41 [INFO] Using standard Java compressor.
+02:11:41 [INFO] Enabled BungeeCord version git:BungeeCord-Bootstrap:26.1-R0.1-SNAPSHOT:edb28b4:2083
+02:11:41 [INFO] Discovered module: ModuleSpec(name=cmd_alert, file=modules\cmd_alert.jar, provider=JenkinsModuleSource())
+02:11:41 [INFO] Discovered module: ModuleSpec(name=cmd_find, file=modules\cmd_find.jar, provider=JenkinsModuleSource())
+02:11:41 [INFO] Discovered module: ModuleSpec(name=cmd_list, file=modules\cmd_list.jar, provider=JenkinsModuleSource())
+02:11:41 [INFO] Discovered module: ModuleSpec(name=cmd_send, file=modules\cmd_send.jar, provider=JenkinsModuleSource())
+02:11:41 [INFO] Discovered module: ModuleSpec(name=cmd_server, file=modules\cmd_server.jar, provider=JenkinsModuleSource())
+02:11:41 [INFO] Discovered module: ModuleSpec(name=reconnect_yaml, file=modules\reconnect_yaml.jar, provider=JenkinsModuleSource())
+02:11:41 [INFO] Attempting to update plugin from null to ModuleVersion(build=2083, git=edb28b4)
+02:11:41 [INFO] Attempting to Jenkins download module cmd_alert v2083
+02:11:42 [INFO] Download complete
+02:11:42 [INFO] Attempting to update plugin from null to ModuleVersion(build=2083, git=edb28b4)
+02:11:42 [INFO] Attempting to Jenkins download module cmd_find v2083
+02:11:43 [INFO] Download complete
+02:11:43 [INFO] Attempting to update plugin from null to ModuleVersion(build=2083, git=edb28b4)
+02:11:43 [INFO] Attempting to Jenkins download module cmd_list v2083
+02:11:43 [INFO] Download complete
+02:11:43 [INFO] Attempting to update plugin from null to ModuleVersion(build=2083, git=edb28b4)
+02:11:43 [INFO] Attempting to Jenkins download module cmd_send v2083
+02:11:43 [INFO] Download complete
+02:11:43 [INFO] Attempting to update plugin from null to ModuleVersion(build=2083, git=edb28b4)
+02:11:43 [INFO] Attempting to Jenkins download module cmd_server v2083
+02:11:43 [INFO] Download complete
+02:11:43 [INFO] Attempting to update plugin from null to ModuleVersion(build=2083, git=edb28b4)
+02:11:43 [INFO] Attempting to Jenkins download module reconnect_yaml v2083
+02:11:44 [INFO] Download complete
+02:11:44 [INFO] Loaded plugin reconnect_yaml version git:reconnect_yaml:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+02:11:44 [INFO] Loaded plugin cmd_find version git:cmd_find:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+02:11:44 [INFO] Loaded plugin cmd_server version git:cmd_server:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+02:11:44 [INFO] Loaded plugin cmd_alert version git:cmd_alert:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+02:11:44 [INFO] Loaded plugin cmd_send version git:cmd_send:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+02:11:44 [INFO] Loaded plugin cmd_list version git:cmd_list:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+02:11:44 [SEVERE] Exception in thread "main" 
+02:11:44 [SEVERE] java.lang.ClassCastException: class java.lang.Boolean cannot be cast to class java.lang.String (java.lang.Boolean and java.lang.String are in module java.base of loader 'bootstrap')
+
+02:11:44 [SEVERE] 	at net.md_5.bungee.conf.YamlConfig.getString(YamlConfig.java:199)
+
+02:11:44 [SEVERE] 	at net.md_5.bungee.conf.Configuration.load(Configuration.java:93)
+
+02:11:44 [SEVERE] 	at net.md_5.bungee.BungeeCord.start(BungeeCord.java:290)
+
+02:11:44 [SEVERE] 	at net.md_5.bungee.BungeeCordLauncher.main(BungeeCordLauncher.java:69)
+
+02:11:44 [SEVERE] 	at net.md_5.bungee.Bootstrap.main(Bootstrap.java:15)
+
+19:42:34 [INFO] Using standard Java JCE cipher.
+19:42:34 [INFO] Using standard Java compressor.
+19:42:34 [INFO] Enabled BungeeCord version git:BungeeCord-Bootstrap:26.1-R0.1-SNAPSHOT:edb28b4:2083
+19:42:34 [INFO] Discovered module: ModuleSpec(name=cmd_alert, file=modules\cmd_alert.jar, provider=JenkinsModuleSource())
+19:42:34 [INFO] Discovered module: ModuleSpec(name=cmd_find, file=modules\cmd_find.jar, provider=JenkinsModuleSource())
+19:42:34 [INFO] Discovered module: ModuleSpec(name=cmd_list, file=modules\cmd_list.jar, provider=JenkinsModuleSource())
+19:42:34 [INFO] Discovered module: ModuleSpec(name=cmd_send, file=modules\cmd_send.jar, provider=JenkinsModuleSource())
+19:42:34 [INFO] Discovered module: ModuleSpec(name=cmd_server, file=modules\cmd_server.jar, provider=JenkinsModuleSource())
+19:42:34 [INFO] Discovered module: ModuleSpec(name=reconnect_yaml, file=modules\reconnect_yaml.jar, provider=JenkinsModuleSource())
+19:42:35 [INFO] Loaded plugin reconnect_yaml version git:reconnect_yaml:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Loaded plugin cmd_find version git:cmd_find:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Loaded plugin cmd_server version git:cmd_server:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Loaded plugin cmd_alert version git:cmd_alert:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Loaded plugin cmd_send version git:cmd_send:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Loaded plugin cmd_list version git:cmd_list:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Enabled plugin reconnect_yaml version git:reconnect_yaml:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Enabled plugin cmd_find version git:cmd_find:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Enabled plugin cmd_server version git:cmd_server:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Enabled plugin cmd_alert version git:cmd_alert:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Enabled plugin cmd_send version git:cmd_send:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Enabled plugin cmd_list version git:cmd_list:26.1-R0.1-SNAPSHOT:edb28b4:2083 by SpigotMC
+19:42:35 [INFO] Listening on /0.0.0.0:25565
+19:43:08 [INFO] [/127.0.0.1:60761] <-> InitialHandler has pinged
+19:43:09 [INFO] [/127.0.0.1:60775] <-> InitialHandler has connected
+19:43:09 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+19:46:22 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+19:46:22 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+19:46:23 [INFO] [/127.0.0.1:53626] <-> InitialHandler has pinged
+19:46:42 [INFO] [/127.0.0.1:60857] <-> InitialHandler has pinged
+19:46:45 [INFO] [plexzydev,/127.0.0.1:60871] <-> InitialHandler has connected
+19:46:45 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+19:46:45 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+19:46:52 [INFO] [plexzydev,/127.0.0.1:54949] <-> InitialHandler has connected
+19:46:52 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+19:48:28 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+19:48:28 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+19:48:28 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+19:48:28 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+19:48:41 [INFO] [/127.0.0.1:53869] <-> InitialHandler has pinged
+19:50:22 [INFO] [/127.0.0.1:53500] <-> InitialHandler has pinged
+19:50:24 [INFO] [plexzydev,/127.0.0.1:53511] <-> InitialHandler has connected
+19:50:24 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+19:57:12 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+19:57:12 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+19:57:12 [INFO] [/127.0.0.1:63453] <-> InitialHandler has pinged
+20:00:00 [INFO] [/127.0.0.1:56708] <-> InitialHandler has pinged
+20:00:02 [INFO] [plexzydev,/127.0.0.1:60821] <-> InitialHandler has connected
+20:00:02 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:01:24 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:01:24 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:01:24 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:01:24 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:01:49 [INFO] [plexzydev,/127.0.0.1:59226] <-> InitialHandler has connected
+20:01:49 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:03:06 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:03:06 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:03:06 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:03:06 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:03:26 [INFO] [/127.0.0.1:61398] <-> InitialHandler has pinged
+20:03:28 [INFO] [plexzydev,/127.0.0.1:61408] <-> InitialHandler has connected
+20:03:28 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:04:59 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:04:59 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:04:59 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:04:59 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:05:18 [INFO] [/127.0.0.1:53327] <-> InitialHandler has pinged
+20:05:20 [INFO] [plexzydev,/127.0.0.1:51182] <-> InitialHandler has connected
+20:05:20 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:07:28 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:07:28 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:07:28 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:07:28 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:07:56 [INFO] [/127.0.0.1:51681] <-> InitialHandler has pinged
+20:07:58 [INFO] [/127.0.0.1:51694] <-> InitialHandler has pinged
+20:08:03 [INFO] [plexzydev,/127.0.0.1:49980] <-> InitialHandler has connected
+20:08:03 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:09:27 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:09:27 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:09:27 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:09:27 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:09:47 [INFO] [/127.0.0.1:53517] <-> InitialHandler has pinged
+20:09:49 [INFO] [plexzydev,/127.0.0.1:53526] <-> InitialHandler has connected
+20:09:49 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:10:48 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:10:48 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:10:48 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:10:48 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:11:07 [INFO] [/127.0.0.1:57988] <-> InitialHandler has pinged
+20:11:09 [INFO] [plexzydev,/127.0.0.1:58003] <-> InitialHandler has connected
+20:11:09 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:13:02 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:13:02 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:13:02 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:13:02 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:13:26 [INFO] [/127.0.0.1:63042] <-> InitialHandler has pinged
+20:13:27 [INFO] [plexzydev,/127.0.0.1:63050] <-> InitialHandler has connected
+20:13:27 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:15:06 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:15:06 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:15:06 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:15:06 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:15:24 [INFO] [/127.0.0.1:64136] <-> InitialHandler has pinged
+20:15:26 [INFO] [plexzydev,/127.0.0.1:64144] <-> InitialHandler has connected
+20:15:26 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:26:03 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:26:03 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:26:03 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:26:03 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:26:36 [INFO] [/127.0.0.1:49969] <-> InitialHandler has pinged
+20:26:37 [INFO] [plexzydev,/127.0.0.1:49978] <-> InitialHandler has connected
+20:26:37 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:32:55 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:32:55 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:32:55 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:32:55 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:33:06 [INFO] [/127.0.0.1:51082] <-> InitialHandler has pinged
+20:33:07 [INFO] [plexzydev,/127.0.0.1:51090] <-> InitialHandler has connected
+20:33:07 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+20:33:07 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:33:09 [INFO] [/127.0.0.1:51101] <-> InitialHandler has pinged
+20:33:10 [INFO] [plexzydev,/127.0.0.1:59971] <-> InitialHandler has connected
+20:33:10 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+20:33:10 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:33:17 [INFO] [/127.0.0.1:56348] <-> InitialHandler has pinged
+20:33:19 [INFO] [plexzydev,/127.0.0.1:56361] <-> InitialHandler has connected
+20:33:19 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:33:28 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:33:28 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:33:29 [INFO] [/127.0.0.1:55142] <-> InitialHandler has pinged
+20:35:16 [INFO] [/127.0.0.1:62190] <-> InitialHandler has pinged
+20:35:18 [INFO] [plexzydev,/127.0.0.1:62203] <-> InitialHandler has connected
+20:35:18 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:39:29 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:39:29 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:39:29 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:39:29 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:39:59 [INFO] [/127.0.0.1:53601] <-> InitialHandler has pinged
+20:40:00 [INFO] [plexzydev,/127.0.0.1:56209] <-> InitialHandler has connected
+20:40:00 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:42:40 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:42:40 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:42:40 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:42:40 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:43:00 [INFO] [/127.0.0.1:64493] <-> InitialHandler has pinged
+20:43:02 [INFO] [plexzydev,/127.0.0.1:64609] <-> InitialHandler has connected
+20:43:02 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:43:04 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:43:04 [WARNING] [plexzydev] No client connected for pending server!
+20:43:04 [INFO] [plexzydev] <-> ServerConnector [lobby] has disconnected
+20:43:04 [INFO] [/127.0.0.1:64617] <-> InitialHandler has pinged
+20:43:06 [INFO] [plexzydev,/127.0.0.1:64625] <-> InitialHandler has connected
+20:43:06 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:47:03 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:47:03 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:47:03 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:47:03 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:47:36 [INFO] [/127.0.0.1:57112] <-> InitialHandler has pinged
+20:47:39 [INFO] [plexzydev,/127.0.0.1:57125] <-> InitialHandler has connected
+20:47:39 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:48:16 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:48:16 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:48:16 [INFO] [/127.0.0.1:59099] <-> InitialHandler has pinged
+20:48:17 [INFO] [plexzydev,/127.0.0.1:59107] <-> InitialHandler has connected
+20:48:17 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:49:41 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+20:49:41 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+20:49:41 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:49:41 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:51:59 [INFO] [/127.0.0.1:63524] <-> InitialHandler has pinged
+20:52:00 [INFO] [plexzydev,/127.0.0.1:52404] <-> InitialHandler has connected
+20:52:00 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:52:06 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:52:06 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:52:07 [INFO] [/127.0.0.1:58617] <-> InitialHandler has pinged
+20:52:08 [INFO] [plexzydev,/127.0.0.1:58624] <-> InitialHandler has connected
+20:52:08 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:53:52 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:53:52 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:53:52 [INFO] [/127.0.0.1:52900] <-> InitialHandler has pinged
+20:53:55 [INFO] [/127.0.0.1:54535] <-> InitialHandler has pinged
+20:53:56 [INFO] [plexzydev,/127.0.0.1:54543] <-> InitialHandler has connected
+20:53:56 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:54:27 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:54:27 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:54:27 [INFO] [/127.0.0.1:64332] <-> InitialHandler has pinged
+20:54:28 [INFO] [plexzydev,/127.0.0.1:64339] <-> InitialHandler has connected
+20:54:28 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+20:54:46 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+20:54:46 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+20:54:46 [INFO] [/127.0.0.1:49371] <-> InitialHandler has pinged
+20:54:48 [INFO] [plexzydev,/127.0.0.1:49381] <-> InitialHandler has connected
+20:54:48 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+21:06:53 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+21:06:53 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+21:06:53 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+21:06:53 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+21:08:11 [INFO] [/127.0.0.1:55723] <-> InitialHandler has pinged
+21:08:12 [INFO] [plexzydev,/127.0.0.1:55730] <-> InitialHandler has connected
+21:08:12 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+21:14:59 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+21:14:59 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+21:14:59 [INFO] [/127.0.0.1:63212] <-> InitialHandler has pinged
+21:15:01 [INFO] [/127.0.0.1:62972] <-> InitialHandler has pinged
+21:15:25 [INFO] [/127.0.0.1:53965] <-> InitialHandler has pinged
+21:15:27 [INFO] [plexzydev,/127.0.0.1:53976] <-> InitialHandler has connected
+21:15:27 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+21:15:27 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+21:16:09 [INFO] [/127.0.0.1:54234] <-> InitialHandler has pinged
+21:16:26 [INFO] [plexzydev,/127.0.0.1:56547] <-> InitialHandler has connected
+21:16:26 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+21:16:26 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+21:16:27 [INFO] [/127.0.0.1:56550] <-> InitialHandler has pinged
+21:16:40 [INFO] [plexzydev,/127.0.0.1:55578] <-> InitialHandler has connected
+21:16:40 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+21:36:10 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+21:36:10 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+21:36:10 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+21:36:10 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+21:45:16 [INFO] [/127.0.0.1:59528] <-> InitialHandler has pinged
+21:45:19 [INFO] [plexzydev,/127.0.0.1:59542] <-> InitialHandler has connected
+21:45:19 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+21:45:19 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+21:45:57 [INFO] [/127.0.0.1:62542] <-> InitialHandler has pinged
+21:45:58 [INFO] [plexzydev,/127.0.0.1:62550] <-> InitialHandler has connected
+21:45:58 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+21:46:08 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+21:46:08 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+21:55:48 [WARNING] [plexzydev] <-> DownstreamBridge <-> [prisongens] - SocketException: Connection reset
+21:55:48 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+21:55:48 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:05:39 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+22:05:40 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:06:14 [WARNING] [plexzydev] <-> DownstreamBridge <-> [prisongens] - SocketException: Connection reset
+22:06:14 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+22:06:14 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:08:57 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+22:08:58 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:14:14 [WARNING] [plexzydev] <-> DownstreamBridge <-> [prisongens] - SocketException: Connection reset
+22:14:14 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+22:14:14 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:17:02 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+22:17:06 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:19:09 [WARNING] [plexzydev] <-> DownstreamBridge <-> [prisongens] - SocketException: Connection reset
+22:19:09 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+22:19:09 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:19:41 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+22:19:43 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:29:52 [WARNING] [plexzydev] <-> DownstreamBridge <-> [prisongens] - SocketException: Connection reset
+22:29:52 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+22:29:52 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:30:35 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+22:30:35 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+22:30:35 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+22:30:35 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:39:32 [INFO] [/127.0.0.1:51263] <-> InitialHandler has pinged
+22:42:14 [INFO] [/127.0.0.1:59399] <-> InitialHandler has pinged
+22:42:16 [INFO] [plexzydev,/127.0.0.1:59411] <-> InitialHandler has connected
+22:42:16 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:42:23 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+22:42:24 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:49:47 [WARNING] [plexzydev] <-> DownstreamBridge <-> [prisongens] - SocketException: Connection reset
+22:49:47 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+22:49:47 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:49:47 [WARNING] [plexzydev] <-> DownstreamBridge <-> [lobby] - SocketException: Connection reset
+22:49:47 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+22:49:47 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+22:49:47 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+22:51:08 [INFO] [/127.0.0.1:64589] <-> InitialHandler has pinged
+22:51:10 [INFO] [plexzydev,/127.0.0.1:51564] <-> InitialHandler has connected
+22:51:10 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+22:51:10 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+22:51:58 [INFO] [/127.0.0.1:54987] <-> InitialHandler has pinged
+22:52:00 [INFO] [plexzydev,/127.0.0.1:54999] <-> InitialHandler has connected
+22:52:00 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+22:52:28 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+22:52:29 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+23:15:46 [WARNING] [plexzydev] -> UpstreamBridge - SocketException: Connection reset
+23:15:46 [INFO] [plexzydev] disconnected with: §f§fSocketException : Connection reset @ sun.nio.ch.SocketChannelImpl:401
+23:15:46 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+23:15:46 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+23:16:30 [INFO] [/127.0.0.1:61542] <-> InitialHandler has pinged
+23:16:31 [INFO] [/127.0.0.1:61552] <-> InitialHandler has connected
+23:16:31 [INFO] [plexzydev] disconnected with: §f§cCould not connect to a default or fallback server. Incorrectly configured address/port/firewall? io.netty.channel.AbstractChannel$AnnotatedConnectException
+23:16:31 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+23:17:24 [INFO] [/127.0.0.1:61561] <-> InitialHandler has pinged
+23:17:26 [INFO] [plexzydev,/127.0.0.1:61573] <-> InitialHandler has connected
+23:17:26 [INFO] [plexzydev] <-> ServerConnector [lobby] has connected
+23:21:41 [INFO] [plexzydev] <-> ServerConnector [prisongens] has connected
+23:21:41 [INFO] [plexzydev] <-> DownstreamBridge <-> [lobby] has disconnected
+23:31:34 [INFO] [plexzydev] -> UpstreamBridge has disconnected
+23:31:34 [INFO] [plexzydev] <-> DownstreamBridge <-> [prisongens] has disconnected
+23:31:34 [INFO] [/127.0.0.1:61015] <-> InitialHandler has pinged
+23:31:37 [INFO] [/127.0.0.1:61028] <-> InitialHandler has pinged
+23:31:41 [INFO] [/127.0.0.1:61030] <-> InitialHandler has pinged
+23:31:44 [INFO] [/127.0.0.1:61045] <-> InitialHandler has pinged

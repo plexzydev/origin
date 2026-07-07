@@ -1,0 +1,10 @@
+islands:
+  234271b8-dee9-3563-97bb-77710c59ce0f:
+    tag: TAG
+    gridX: 0
+    gridZ: 0
+    maxMembers: 2
+    maxHoppers: 5
+    maxGens: 4
+    regenTicks: 100
+    members: []

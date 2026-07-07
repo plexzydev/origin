@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'io.papermc.paperweight.userdev' version '1.7.7'
+}
+
+group = 'com.servermc'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    paperweight.paperDevBundle('1.21-R0.1-SNAPSHOT')
+}
+
+jar {
+    archiveFileName = 'PrisonGens.jar'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Copy built jar to prisongens server plugins folder
+task deploy(type: Copy, dependsOn: jar) {
+    from jar.archiveFile
+    into file("${rootProject.projectDir}/../../servers/prisongens/plugins")
+}
