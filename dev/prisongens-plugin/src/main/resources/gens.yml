@@ -1,0 +1,110 @@
+# ═══════════════════════════════════════════════════════
+# PrisonGens - Configuración de GENS
+# Cada GEN es una mina completa. Categorías extensibles.
+# ═══════════════════════════════════════════════════════
+
+xp:
+  # XP necesaria para subir de nivel: base * (nivel ^ exponente)
+  base-per-level: 100
+  exponent: 1.5
+  max-level: 100
+  feed:
+    # XP otorgada al alimentar según tier relativo del GEN consumido
+    lower-tier: 25        # GEN de tier inferior (dividido por la diferencia de tiers)
+    same-tier: 100        # GEN del mismo tier
+    higher-tier: 300      # GEN de tier superior (multiplicado por la diferencia)
+    per-level-bonus: 15   # XP extra por cada nivel del GEN consumido
+
+mix:
+  # % de la composición de la mina que aporta el GEN primario (slot 1)
+  primary-weight: 60
+
+categories:
+  INICIAL:
+    name: "GEN Inicial"
+    color: "§7"
+    icon: COBBLESTONE
+    tier: 1
+    price: 1000
+    max-stage: 2
+    feed-capacity: 10
+    size-weight: 2
+    max-contribution: 30
+    blocks:
+      COBBLESTONE: 70
+      COAL_ORE: 25
+      IRON_ORE: 5
+  HIERRO:
+    name: "GEN de Hierro"
+    color: "§f"
+    icon: RAW_IRON
+    tier: 2
+    price: 10000
+    max-stage: 3
+    feed-capacity: 15
+    size-weight: 3
+    max-contribution: 60
+    blocks:
+      STONE: 40
+      IRON_ORE: 45
+      GOLD_ORE: 15
+  ORO:
+    name: "GEN de Oro"
+    color: "§6"
+    icon: RAW_GOLD
+    tier: 3
+    price: 50000
+    max-stage: 4
+    feed-capacity: 20
+    size-weight: 4
+    max-contribution: 100
+    blocks:
+      STONE: 30
+      GOLD_ORE: 50
+      REDSTONE_ORE: 12
+      DIAMOND_ORE: 8
+  DIAMANTE:
+    name: "GEN de Diamante"
+    color: "§b"
+    icon: DIAMOND
+    tier: 4
+    price: 250000
+    max-stage: 5
+    feed-capacity: 25
+    size-weight: 5
+    max-contribution: 160
+    blocks:
+      DEEPSLATE: 25
+      DIAMOND_ORE: 50
+      EMERALD_ORE: 15
+      LAPIS_ORE: 10
+  ESMERALDA:
+    name: "GEN de Esmeralda"
+    color: "§a"
+    icon: EMERALD
+    tier: 5
+    price: 1000000
+    max-stage: 6
+    feed-capacity: 30
+    size-weight: 6
+    max-contribution: 240
+    blocks:
+      DEEPSLATE: 20
+      EMERALD_ORE: 55
+      DIAMOND_ORE: 15
+      ANCIENT_DEBRIS: 10
+  NETHERITE:
+    name: "GEN de Netherite"
+    color: "§4"
+    icon: NETHERITE_SCRAP
+    tier: 6
+    price: 5000000
+    max-stage: 6
+    feed-capacity: 40
+    size-weight: 8
+    max-contribution: 350
+    blocks:
+      NETHERRACK: 20
+      ANCIENT_DEBRIS: 45
+      NETHER_GOLD_ORE: 20
+      NETHER_QUARTZ_ORE: 15

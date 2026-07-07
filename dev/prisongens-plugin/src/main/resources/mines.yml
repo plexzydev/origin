@@ -1,0 +1,48 @@
+# ═══════════════════════════════════════════════════════
+# PrisonGens - Configuración de Minas Dinámicas
+# ═══════════════════════════════════════════════════════
+
+reset:
+  # Bloques colocados por tick durante resets/crecimiento (anti-lag)
+  blocks-per-tick: 400
+  # Intervalo de reset por defecto en ticks (reducible con mejoras)
+  default-interval-ticks: 1200
+
+# Etapas de crecimiento: ancho x ancho x profundidad
+# points = puntos de tamaño mínimos para alcanzar la etapa
+stages:
+  1: { width: 5, depth: 10, points: 0 }
+  2: { width: 7, depth: 11, points: 30 }
+  3: { width: 9, depth: 12, points: 80 }
+  4: { width: 12, depth: 13, points: 160 }
+  5: { width: 15, depth: 14, points: 280 }
+  6: { width: 20, depth: 15, points: 450 }
+
+space:
+  # Etapa máxima sin mejorar el tamaño de la isla
+  base-max-stage: 3
+  # Etapas extra por cada nivel de la mejora "Tamaño de Isla"
+  stage-per-size-level: 1
+
+# Precios de venta directa por bloque minado
+prices:
+  COBBLESTONE: 1.0
+  STONE: 1.5
+  COAL_ORE: 3.0
+  IRON_ORE: 6.0
+  GOLD_ORE: 15.0
+  REDSTONE_ORE: 20.0
+  LAPIS_ORE: 25.0
+  DIAMOND_ORE: 50.0
+  EMERALD_ORE: 150.0
+  DEEPSLATE: 2.0
+  NETHERRACK: 2.0
+  NETHER_GOLD_ORE: 25.0
+  NETHER_QUARTZ_ORE: 30.0
+  ANCIENT_DEBRIS: 500.0
+
+tokens:
+  # Probabilidad base de recibir tokens por bloque minado
+  chance: 0.08
+  min: 1
+  max: 2
