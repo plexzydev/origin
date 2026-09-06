@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qtdesk"
+version = "0.1.0"
+description = "Mesa de trading cuantitativa institucional - backtesting y paper trading unicamente"
+requires-python = ">=3.11"
+# NUCLEO SIN DEPENDENCIAS. Decision deliberada, no limitacion:
+# el motor de backtest se prueba contra si mismo, no contra la semantica
+# de alineacion de indices de pandas (una fuente clasica de look-ahead
+# silencioso via .shift(), .rolling().mean() centrado o reindex con ffill).
+dependencies = []
+
+[project.optional-dependencies]
+# Solo para adaptadores de datos reales. El nucleo nunca los importa.
+data = ["pandas>=2.0", "requests>=2.31", "yfinance>=0.2"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+qtdesk = "qtdesk.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = ["error::DeprecationWarning"]
