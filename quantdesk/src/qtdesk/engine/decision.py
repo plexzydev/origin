@@ -75,8 +75,10 @@ class DecisionEngine:
         self.calibrator = calibrator
 
     # -----------------------------------------------------------------
-    def decide(self, ctx, breaker_verdict=None, *, sample_size: int = 0) -> Decision:
+    def decide(self, ctx, breaker_verdict=None, *, sample_size: int = 0,
+               measured_hit_rate: float | None = None) -> Decision:
         cfg = self.cfg
+        measuring = sample_size < cfg.decision.measurement_min_sample
 
         # ===== PASO 1: CAPA 0 =========================================
         veto, outcomes = run_capa0(ctx, breaker_verdict)
@@ -84,7 +86,8 @@ class DecisionEngine:
             return self._no_trade(
                 ctx, veto, (), regime_mod.RegimeCall(Cycle.UNKNOWN, RiskMode.NEUTRAL, 0.0, (), {}, 0.0),
                 0.0, 0, None, (), blocked=veto.codes,
-                headline="CAPA 0 vetó antes de cualquier analisis.",
+                headline="CAPA 0 veto antes de cualquier analisis: no se evaluo ninguna capa.",
+                outcomes=outcomes,
             )
 
         # ===== PASO 2: REGIMEN ========================================
@@ -193,7 +196,8 @@ class DecisionEngine:
         # ===== DIMENSIONAMIENTO =======================================
         size_mult = min(
             1.0,
-            (breaker_verdict.size_multiplier if breaker_verdict else 1.0) * size_mult_freq,
+            (breaker_verdict.size_multiplier if breaker_verdict else 1.0) * size_mult_freq
+            * (self._measurement_multiplier() if measuring else 1.0),
         )
         size = atr_position_size(
             ctx.desk.equity, lv.entry, lv.stop, lv.atr, cfg.risk, size_multiplier=size_mult
@@ -205,16 +209,24 @@ class DecisionEngine:
         tree = build_tree(TreeInputs(
             rr_target=lv.rr, conviction=conviction, vol_stress=vol_stress,
             gap_slippage_r=min(gap_slip_r, 3.0),
+            measured_hit_rate=measured_hit_rate, sample_size=sample_size,
         ))
+        # En medicion el gate de EV se DESACTIVA explicitamente (se pone en
+        # -inf) y su lugar lo ocupa el presupuesto de medicion, que si es
+        # estimable. El peor caso sigue teniendo que ser sobrevivible.
+        min_ev = float("-inf") if measuring else cfg.decision.min_expected_r
         tv = evaluate_tree(
             tree, size.risk_pct if size.viable else cfg.risk.risk_per_trade_pct,
-            cfg.decision.min_expected_r, cfg.decision.max_worst_case_equity_pct,
+            min_ev, cfg.decision.max_worst_case_equity_pct,
         )
+        self._last_min_ev = min_ev
 
         # ===== PASO 8: ABOGADO DEL DIABLO =============================
         args = devil.build_case(
             ctx, scores, reg, tv, freq_verdict, size,
             error_book=self.deps.error_book, sample_size=sample_size,
+            measuring=measuring,
+            measurement_size_multiplier=self._measurement_multiplier(),
         )
 
         # ===== LIMITES DE CARTERA =====================================
@@ -246,7 +258,7 @@ class DecisionEngine:
             ctx=ctx, side=side, entry=lv.entry, stop=lv.stop, targets=(lv.target,),
             size_result=size, limit_verdict=lim, breaker_verdict=breaker_verdict,
             tree_verdict=tv, arguments=args, freq_verdict=freq_verdict,
-            hypothetical_position=hypo,
+            hypothetical_position=hypo, measuring=measuring,
         )
 
         if not officer.approved:
@@ -269,6 +281,12 @@ class DecisionEngine:
             time_stop=ts, sector=ctx.sector,
         )
         thesis, falsification = self._thesis(ctx, side, lv, reg, scores, aligned, ts)
+        if measuring:
+            thesis = (
+                f"[MEDICION - VENTAJA NO DEMOSTRADA, {sample_size}/{cfg.decision.measurement_min_sample} "
+                f"operaciones comparables; tamano al {self._measurement_multiplier():.0%}, "
+                f"presupuesto total de aprendizaje {cfg.decision.measurement_budget_pct:.1%} del capital] "
+            ) + thesis
 
         return Decision(
             ts=ctx.as_of, symbol=ctx.symbol,
@@ -285,23 +303,60 @@ class DecisionEngine:
 
     # -----------------------------------------------------------------
     def _conviction(self, combined, n_aligned, reg, scores, threshold) -> tuple[int, str]:
+        """
+        Conviccion 1..5, medida en PERCENTIL de lo que este sistema produce.
+
+        Igual que el umbral: un corte absoluto ("score >= 80 = conviccion 5")
+        sobre una escala sin calibrar no significa nada. Si los scores del
+        sistema viven entre -60 y +60, la conviccion 5 seria inalcanzable y
+        el arbol de escenarios usaria siempre la tasa de acierto mas baja.
+        Medirla en percentiles la hace comparable entre regimenes y periodos.
+
+        Las capas alineadas actuan como TECHO, no como sumando: una senal
+        fortisima sostenida por una sola capa no es alta conviccion, es una
+        capa gritando.
+        """
         cov = sum(s.confidence for s in scores) / len(scores)
         a = abs(combined)
-        if a >= 80 and n_aligned >= 4 and reg.confidence >= 0.7 and cov >= 0.6:
-            c = 5
-        elif a >= 70 and n_aligned >= 4 and cov >= 0.5:
-            c = 4
-        elif a >= 60 and n_aligned >= 3:
-            c = 3
-        elif a >= threshold and n_aligned >= 3:
-            c = 2
+        pr = self.calibrator.percentile_of(combined) if self.calibrator else None
+
+        if pr is not None:
+            if pr >= 0.995:
+                c = 5
+            elif pr >= 0.99:
+                c = 4
+            elif pr >= 0.97:
+                c = 3
+            elif a >= threshold:
+                c = 2
+            else:
+                c = 1
+            basis = f"percentil {pr:.1%} de las senales historicas del sistema"
         else:
-            c = 1
+            # Warmup del calibrador: se cae a cortes absolutos, y se dice.
+            c = 3 if a >= 60 else (2 if a >= threshold else 1)
+            basis = "cortes absolutos (calibrador en warmup)"
+
+        # Techos por evidencia
+        if n_aligned < 4:
+            c = min(c, 4)
+        if n_aligned < 3:
+            c = min(c, 2)
+        if reg.confidence < 0.5:
+            c = min(c, 3)
+        if cov < 0.45:
+            c = min(c, 3)
+
         return c, (
-            f"conviccion {c}/5: score |{a:.0f}| sobre umbral {threshold:.0f}, "
+            f"conviccion {c}/5 por {basis}; score |{a:.0f}| contra umbral {threshold:.0f}, "
             f"{n_aligned} capas alineadas, confianza de regimen {reg.confidence:.2f}, "
-            f"cobertura media de datos {cov:.2f}"
+            f"cobertura de datos {cov:.2f}"
         )
+
+    def _measurement_multiplier(self) -> float:
+        """Fraccion del tamano normal durante la fase de medicion."""
+        d = self.cfg.decision
+        return min(1.0, d.measurement_risk_per_trade / max(self.cfg.risk.risk_per_trade_pct, 1e-9))
 
     def _vol_stress(self, ctx) -> float:
         vix = ctx.macro("VIX")
@@ -405,7 +460,8 @@ class DecisionEngine:
     # -----------------------------------------------------------------
     def _no_trade(self, ctx, veto, scores, reg, combined, n_aligned, tv, args,
                   *, blocked, headline, freq_verdict=None, weights=None,
-                  officer=None, levels=None, conviction=1, conv_reason="") -> Decision:
+                  officer=None, levels=None, conviction=1, conv_reason="",
+                  outcomes=()) -> Decision:
         """
         NO OPERAR tambien produce un registro completo con las cinco voces.
 
@@ -428,7 +484,7 @@ class DecisionEngine:
             combined_score=combined, aligned_layers=n_aligned, scenario_tree=tv.tree if tv else None,
             arguments=args,
             voices=self._voices(ctx, scores, reg, combined, n_aligned, tv, args, officer,
-                                freq_verdict, levels, veto, ()),
+                                freq_verdict, levels, veto, outcomes),
             plan=None, thesis=headline,
             falsification="", falsification_deadline=None,
             conviction=conviction, conviction_reason=conv_reason or "sin operacion: conviccion no aplica",

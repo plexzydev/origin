@@ -115,8 +115,11 @@ def check_credit_stress(ctx: MarketContext) -> CheckOutcome:
 
 def check_macro_event(ctx: MarketContext) -> CheckOutcome:
     cfg = ctx.config.veto
-    if ctx.events is None:
-        return _skip("VETO_EVENTO_MACRO", "sin calendario de eventos cargado")
+    if ctx.events is None or not ctx.events.macro_loaded:
+        # Un calendario vacio NO es "no hay eventos": es "no sabemos".
+        return _skip("VETO_EVENTO_MACRO",
+                     "calendario macro no cargado: imposible verificar si hay un dato "
+                     "programado en las proximas 48hs")
     evs = ctx.events.macro_within(ctx.as_of, cfg.macro_event_window_hours)
     if evs:
         e = evs[0]
@@ -136,8 +139,10 @@ def check_macro_event(ctx: MarketContext) -> CheckOutcome:
 
 def check_earnings(ctx: MarketContext) -> CheckOutcome:
     cfg = ctx.config.veto
-    if ctx.events is None:
-        return _skip("VETO_EARNINGS", "sin calendario de earnings cargado")
+    if ctx.events is None or not ctx.events.earnings_loaded:
+        return _skip("VETO_EARNINGS",
+                     "calendario de earnings no cargado: imposible verificar si la empresa "
+                     "reporta en los proximos dias")
     evs = ctx.events.earnings_within(ctx.symbol, ctx.as_of, cfg.earnings_window_bdays, ctx.calendar)
     if evs:
         e = evs[0]

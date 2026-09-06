@@ -32,6 +32,8 @@ def build_case(
     *,
     error_book=None,
     sample_size: int = 0,
+    measuring: bool = False,
+    measurement_size_multiplier: float = 1.0,
 ) -> tuple[Argument, ...]:
     """Genera el caso en contra. Devuelve todos los argumentos, refutados o no."""
     args: list[Argument] = []
@@ -39,16 +41,29 @@ def build_case(
 
     # -- 1. El edge puede ser ruido ----------------------------------------
     if sample_size < 30:
+        # La objecion es CORRECTA y no se puede responder con analisis. La unica
+        # refutacion valida es de PROTOCOLO: se opera chico y explicitamente para
+        # generar la muestra que hoy no existe. Si esta objecion bloqueara sin
+        # refutacion posible, el sistema no podria tomar nunca su primera
+        # operacion -- y no medir tambien es una decision, ademas peor: garantiza
+        # ignorancia permanente. Lo que NO es aceptable es operar a tamano pleno
+        # fingiendo una ventaja que no se midio.
         args.append(Argument(
             claim="No sabes si este setup tiene ventaja: nunca lo mediste con muestra suficiente.",
-            severity=Severity.MEDIUM if sample_size >= 10 else Severity.HIGH,
+            severity=Severity.HIGH,
             evidence=(
                 f"solo {sample_size} operaciones comparables registradas. Con menos de 30 no se "
-                "distingue senal de ruido, y el propio sistema prohibe tocar pesos con esa muestra."
+                "distingue senal de ruido, y el propio sistema prohibe tocar pesos con esa muestra. "
+                "El arbol de escenarios usa la tasa de acierto TEORICA sin ventaja, que con la "
+                "friccion real da valor esperado NEGATIVO."
             ),
-            refuted_by=None if sample_size < 10 else (
-                f"muestra de {sample_size}: insuficiente para concluir, suficiente para no ser un disparate. "
-                "Se opera con tamano reducido y se sigue midiendo."
+            refuted_by=(
+                f"refutacion de protocolo, no de analisis: se opera en MODO MEDICION a "
+                f"{measurement_size_multiplier:.0%} del tamano, con el unico objetivo de generar "
+                f"muestra. El resultado se registra y a las 30 operaciones comparables la tasa "
+                f"medida reemplaza a la teorica. Negarse a medir tambien es una decision, y "
+                f"garantiza no saber nunca."
+                if measuring and measurement_size_multiplier < 1.0 else None
             ),
         ))
 

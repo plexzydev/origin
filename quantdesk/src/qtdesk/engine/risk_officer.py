@@ -51,6 +51,7 @@ def review(
     arguments: tuple[Argument, ...],
     freq_verdict,
     hypothetical_position,
+    measuring: bool = False,
 ) -> OfficerVerdict:
     """Revision final. Cualquier veto termina la operacion."""
     cfg = ctx.config
@@ -114,7 +115,8 @@ def review(
         if not tree_verdict.ev_ok:
             vetoes.append(VetoReason(
                 "OFICIAL_EV_INSUFICIENTE",
-                f"valor esperado {tree_verdict.expected_r:+.2f}R por debajo del minimo "
+                f"valor esperado {tree_verdict.expected_r:+.2f}R por debajo del minimo exigido "
+                f"{'en modo medicion ' if measuring else ''}"
                 f"{cfg.decision.min_expected_r:+.2f}R. La mediocridad es el enemigo.",
             ))
 
@@ -178,7 +180,19 @@ def review(
             vetoes.append(VetoReason("OFICIAL_STRESS", f"el libro resultante no sobrevive el stress test: {msg}"))
 
     approved = not vetoes and qty > 0
-    if approved:
+    if approved and measuring:
+        msg = (
+            f"APRUEBA {qty:,.0f} unidades EN MODO MEDICION. La ventaja del setup NO esta "
+            f"demostrada: el arbol usa la tasa de acierto teorica sin ventaja, y con la "
+            f"friccion real eso da EV negativo. Se opera a tamano reducido para GENERAR "
+            f"MUESTRA, no porque el modelo prometa ganancia. El gate de EV esta desactivado "
+            f"a proposito -- sin muestra siempre daria negativo -- y su lugar lo ocupa el "
+            f"presupuesto de aprendizaje ({cfg.decision.measurement_budget_pct:.1%} del capital "
+            f"si TODAS pierden). Riesgo nominal "
+            f"{size_result.risk_pct:.2%}, peor caso realista {size_result.worst_case_pct:.2%}. "
+            + (" ".join(reductions) if reductions else "")
+        )
+    elif approved:
         msg = (
             f"APRUEBA {qty:,.0f} unidades. Riesgo nominal "
             f"{size_result.risk_pct:.2%}, peor caso realista {size_result.worst_case_pct:.2%}. "

@@ -218,13 +218,40 @@ class EarningsEvent:
 
 @dataclass(slots=True)
 class EventCalendar:
+    """
+    Calendario de eventos.
+
+    DISTINCION CRITICA: un calendario VACIO no significa "no hay eventos".
+    Significa "no sabemos si hay eventos". Confundir las dos cosas hace que el
+    sistema opere tranquilo justo antes de una decision de tasas simplemente
+    porque alguien se olvido de cargar el calendario -- y el veto de CAPA 0
+    reportaria "sin eventos de peso en 48hs", que seria literalmente falso.
+
+    Por eso los flags `macro_loaded` y `earnings_loaded`: se ponen en True solo
+    cuando alguien carga datos DE VERDAD. Con ellos en False los chequeos de
+    CAPA 0 se marcan como SALTEADOS, no como limpios, y demasiados salteados
+    son a su vez un veto.
+    """
     macro: list[MacroEvent] = field(default_factory=list)
     earnings: list[EarningsEvent] = field(default_factory=list)
+    macro_loaded: bool = False
+    earnings_loaded: bool = False
+
+    def mark_loaded(self, *, macro: bool = True, earnings: bool = True) -> None:
+        """
+        Declara explicitamente que el calendario se cargo, incluso si quedo
+        vacio para el periodo consultado. Es una afirmacion del operador:
+        "mire y no hay eventos", distinta de "no mire".
+        """
+        self.macro_loaded = self.macro_loaded or macro
+        self.earnings_loaded = self.earnings_loaded or earnings
 
     def add_macro(self, e: MacroEvent) -> None:
+        self.macro_loaded = True
         self.macro.append(e)
 
     def add_earnings(self, e: EarningsEvent) -> None:
+        self.earnings_loaded = True
         self.earnings.append(e)
 
     def macro_within(self, as_of: datetime, hours: int, min_importance: int = 4) -> tuple[MacroEvent, ...]:

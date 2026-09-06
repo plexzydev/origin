@@ -93,7 +93,42 @@ class DecisionConfig:
     min_layer_confidence: float = 0.30       # una capa sin datos no "alinea" nada
     # Cobertura de datos pobre no debilita la senal: sube la exigencia.
     coverage_bump_max: float = 20.0
-    min_expected_r: float = 0.20             # EV del arbol de escenarios, en R
+    min_expected_r: float = 0.20             # EV exigido cuando la ventaja esta DEMOSTRADA
+    # MODO MEDICION.
+    #
+    # El arbol de escenarios ancla la tasa de acierto en la caminata aleatoria
+    # (1/(1+R:R)) porque es lo unico afirmable sin evidencia. Con esa tasa, la
+    # friccion real -- gaps, parciales, salidas por tiempo -- da EV negativo
+    # SIEMPRE, para cualquier R:R. El sistema necesita ~13 puntos porcentuales
+    # de ventaja sobre el azar para no perder plata.
+    #
+    # Consecuencia: un sistema honesto no puede justificar su primera operacion
+    # con EV positivo, porque todavia no midio nada. Y no puede medir sin operar.
+    #
+    # Se resuelve con un estado explicito: mientras haya menos de
+    # `measurement_min_sample` operaciones comparables, el sistema opera en
+    # MEDICION -- tamano reducido, EV exigido relajado (pero peor caso igual de
+    # sobrevivible), y cada decision marcada VENTAJA_NO_DEMOSTRADA. Recien con
+    # muestra suficiente la tasa medida reemplaza a la teorica y se exige EV
+    # positivo de verdad.
+    measurement_min_sample: int = 30
+    # Durante la medicion NO se filtra por EV. Filtrar por una esperanza que
+    # todavia no se puede estimar es filtrar por una constante: el modelo sin
+    # muestra siempre devuelve "caminata aleatoria menos friccion", o sea
+    # negativo, para cualquier setup. El gate se vuelve un apagado disfrazado
+    # de analisis.
+    #
+    # Lo que SI se puede acotar es cuanto se esta dispuesto a gastar
+    # aprendiendo. El presupuesto de medicion es el costo maximo de descubrir
+    # si el sistema tiene ventaja, asumiendo que TODAS las operaciones de
+    # medicion pierden. Es un numero conocido, chico y decidido de antemano.
+    measurement_budget_pct: float = 0.05      # 5% del capital, total
+    # Lo que si sigue vigente en medicion: el peor caso debe ser sobrevivible.
+
+    @property
+    def measurement_risk_per_trade(self) -> float:
+        """Riesgo por operacion durante la medicion: presupuesto / muestra."""
+        return self.measurement_budget_pct / max(1, self.measurement_min_sample)
     max_worst_case_equity_pct: float = 0.025 # el peor escenario no puede costar mas
     devils_advocate_blocking: str = "HIGH"   # severidad en pie que bloquea
 
@@ -146,7 +181,24 @@ class FrequencyPolicy:
 class RiskConfig:
     risk_per_trade_pct: float = 0.0075        # 0.75% -- dentro del rango 0.5-1%
     max_risk_per_trade_pct: float = 0.01      # techo duro
-    min_rr_ratio: float = 3.0                 # asimetria obligatoria 1:3
+    # ASIMETRIA -- DESVIACION DELIBERADA DEL MANDATO ORIGINAL, DOCUMENTADA.
+    #
+    # El mandato pedia 1:3. Medido sobre datos (ver engine/feasibility.py):
+    # con el limite de riesgo estresado del 4% y 0.75% por operacion entran
+    # ~5 posiciones simultaneas; para 10 operaciones mensuales cada una debe
+    # durar ~11-20 ruedas; y a ese plazo el recorrido favorable mediano da un
+    # R:R de 1.2-1.7, no de 3. Las tres condiciones no pueden ser ciertas a
+    # la vez.
+    #
+    # Decision del operador: priorizar FRECUENCIA. R:R minimo 1.5:1.
+    # Consecuencia aritmetica que hay que tener presente: con 1.5:1 el punto
+    # de equilibrio esta en 40% de aciertos (contra 25% con 1:3). El sistema
+    # necesita acertar MAS seguido para no perder plata. La asimetria sigue
+    # siendo positiva, pero el margen de error es menor.
+    #
+    # Para volver al mandato original: min_rr_ratio=3.0, time_stop_bdays=130,
+    # quota_mode=False. Eso da ~1 operacion por mes.
+    min_rr_ratio: float = 1.5
     kelly_fraction: float = 0.25              # Kelly completo es suicida
     entry_tranches: tuple[float, ...] = (0.5, 0.3, 0.2)
     stop_slippage_atr: float = 2.0            # el stop NO es garantia: se desliza

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from typing import Mapping
 
 from ..clock import AccessAudit
 from ..config import SystemConfig
@@ -37,6 +38,10 @@ class DataBundle:
     # que el costo de una decision no crezca con el largo del backtest.
     history_window: int = 400
 
+    def all_views(self, as_of: datetime, audit: AccessAudit) -> dict[str, SignalView]:
+        """Vistas de TODOS los simbolos, selladas en `as_of`. Una vez por rueda."""
+        return {s: self.view(s, as_of, audit) for s in self.bars}
+
     def symbols(self) -> tuple[str, ...]:
         return tuple(sorted(self.bars))
 
@@ -57,6 +62,7 @@ class DataBundle:
         *,
         open_positions: tuple[Position, ...] = (),
         peers: tuple[str, ...] | None = None,
+        peer_views: Mapping[str, SignalView] | None = None,
     ) -> MarketContext:
         """
         Arma el contexto sellado en `as_of`.
@@ -66,8 +72,16 @@ class DataBundle:
         curso, el sistema estaria mirando el cierre del viernes desde el martes.
         """
         view = self.view(symbol, as_of, audit)
-        peer_syms = peers if peers is not None else tuple(s for s in self.bars if s != symbol)
-        peer_views = {s: self.view(s, as_of, audit) for s in peer_syms if s in self.bars}
+        if peer_views is None:
+            peer_syms = peers if peers is not None else tuple(s for s in self.bars if s != symbol)
+            peer_views = {s: self.view(s, as_of, audit) for s in peer_syms if s in self.bars}
+        else:
+            # Vistas de pares precalculadas para toda la rueda. Sin esto el
+            # backtest reconstruye N-1 vistas por cada uno de los N simbolos:
+            # coste O(N^2) por dia, que con 146 simbolos hace la corrida
+            # inviable. Las vistas son de solo lectura y estan selladas en el
+            # mismo `as_of`, asi que compartirlas es seguro por construccion.
+            peer_views = {s: v for s, v in peer_views.items() if s != symbol}
 
         visible = view.window(self.history_window)
         htf_bucket = timedelta(hours=4) if self.intraday else timedelta(days=7)

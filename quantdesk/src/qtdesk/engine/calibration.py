@@ -72,6 +72,18 @@ class ConvictionCalibrator:
             + f" (mediana historica {ordered[len(ordered)//2]:.1f})"
         )
 
+    def percentile_of(self, score: float) -> float | None:
+        """
+        En que percentil cae |score| dentro de lo que este sistema suele
+        producir. Es la base para medir CONVICCION de forma consistente con
+        el umbral: si el umbral es relativo, la conviccion tambien debe serlo.
+        """
+        if len(self._obs) < self.warmup:
+            return None
+        v = abs(score)
+        below = sum(1 for o in self._obs if o < v)
+        return below / len(self._obs)
+
     @property
     def n_observations(self) -> int:
         return len(self._obs)

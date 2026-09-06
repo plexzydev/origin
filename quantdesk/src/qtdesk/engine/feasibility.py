@@ -100,7 +100,7 @@ def analyze(cfg: SystemConfig, measured_rr_by_horizon: dict[int, float] | None =
         # Plazo necesario para el R:R exigido, por escalamiento raiz-del-tiempo
         need_sessions = holding_sessions * (required / max(achievable, 1e-9)) ** 2
         options = (
-            f"OPCION A -- priorizar la asimetria: mantener R:R 1:{required:.0f}, subir el plazo a "
+            f"OPCION A -- priorizar la asimetria: mantener R:R 1:{required:.1f}, subir el plazo a "
             f"~{need_sessions:.0f} ruedas. Con {slots:.1f} slots eso da "
             f"~{slots / (need_sessions / 21):.1f} operaciones por mes, no {per_month:.0f}.",
             f"OPCION B -- priorizar la frecuencia: mantener {per_month:.0f} operaciones mensuales y "

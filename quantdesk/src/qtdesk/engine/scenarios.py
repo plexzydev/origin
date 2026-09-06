@@ -32,70 +32,132 @@ from ..contracts import Scenario, ScenarioTree
 
 @dataclass(frozen=True, slots=True)
 class TreeInputs:
-    rr_target: float          # R del objetivo principal (>= 3 por mandato)
-    conviction: int           # 1..5
-    vol_stress: float         # 0 = calma, 1 = estres maximo
-    gap_slippage_r: float     # cuanto empeora el stop en un gap, en R
-    partial_r: float = 0.6    # payoff del camino "avanzo y volvio a breakeven"
+    rr_target: float            # R del objetivo
+    conviction: int             # 1..5
+    vol_stress: float           # 0 = calma, 1 = estres maximo
+    gap_slippage_r: float       # cuanto empeora el stop en un gap, en R
+    # Tasa de acierto MEDIDA sobre operaciones comparables. Si hay muestra
+    # suficiente, manda esto y no la teoria.
+    measured_hit_rate: float | None = None
+    sample_size: int = 0
+    partial_share: float = 0.40   # de los aciertos, cuantos quedan a medio camino
+    partial_r: float = 0.60
+    time_share: float = 0.22      # trades que vencen por plazo sin resolverse
     time_stop_r: float = -0.25
+    gap_share: float = 0.10       # de las perdidas, cuantas ejecutan con gap
+
+
+def base_hit_rate(rr_target: float) -> float:
+    """
+    Probabilidad de tocar +kR antes que -1R SIN NINGUNA VENTAJA.
+
+    Es la ruina del jugador: 1/(1+k). Para k=1.5 da 40%, para k=3 da 25%.
+
+    De aca sale la afirmacion mas importante de todo el modulo: EL RATIO
+    RIESGO/BENEFICIO NO CREA ESPERANZA MATEMATICA. Un 1:3 con 25% de aciertos
+    y un 1.5:1 con 40% valen exactamente lo mismo: cero, antes de costos.
+    Lo unico que crea esperanza es la VENTAJA, y la ventaja se mide, no se
+    supone.
+    """
+    return 1.0 / (1.0 + max(rr_target, 0.1))
 
 
 def build_tree(inp: TreeInputs) -> ScenarioTree:
-    """Construye el arbol de 5 caminos. Las probabilidades suman 1 exacto."""
+    """
+    Construye el arbol de 5 caminos. Las probabilidades suman 1 exacto.
+
+    Descomposicion (importa el orden, y una version anterior lo tenia mal):
+    primero se separa el resultado BINARIO -- toca objetivo o toca stop --
+    segun la tasa de acierto. Recien despues se subdivide cada lado en sus
+    variantes realistas. Carvar el camino "avance parcial" del total en vez
+    del lado ganador le regalaba masa de probabilidad al lado bueno e inflaba
+    el EV. Con la aritmetica corregida, la friccion se ve.
+    """
     c = max(1, min(5, inp.conviction))
     vs = max(0.0, min(1.0, inp.vol_stress))
 
-    # Camino 4: el gap saltea el stop. Sube con el estres de volatilidad.
-    p_gap = 0.04 + 0.06 * vs
-    # Camino 5: la tesis no se materializa y vence el plazo.
-    p_time = 0.22 - 0.02 * (c - 3)
-    remaining = 1.0 - p_gap - p_time
+    theory = base_hit_rate(inp.rr_target)
+    if inp.measured_hit_rate is not None and inp.sample_size >= 30:
+        hit = max(0.02, min(0.95, inp.measured_hit_rate))
+        hit_basis = (
+            f"tasa MEDIDA {hit:.0%} sobre {inp.sample_size} operaciones comparables "
+            f"(teorica sin ventaja: {theory:.0%})"
+        )
+    else:
+        # Sin muestra, la unica ventaja que el sistema se atribuye es +/-4pp
+        # por conviccion. Cualquier cosa mayor seria inventar un edge.
+        hit = max(0.05, min(0.85, theory + 0.02 * (c - 3)))
+        hit_basis = (
+            f"tasa TEORICA {theory:.0%} = 1/(1+{inp.rr_target:.1f}) por caminata aleatoria, "
+            f"ajustada {0.02 * (c - 3):+.0%} por conviccion {c}/5. VENTAJA NO DEMOSTRADA: "
+            f"solo {inp.sample_size} operaciones comparables registradas."
+        )
 
-    # Tasa de acierto condicional a que el trade se resuelva
-    hit = 0.22 + 0.05 * (c - 1)
-    p_full = remaining * hit
-    p_partial = remaining * 0.30
-    p_stop = remaining - p_full - p_partial
+    p_time = inp.time_share
+    active = 1.0 - p_time
+    p_win = active * hit
+    p_loss = active * (1.0 - hit)
+
+    gap_share = min(0.6, inp.gap_share + 0.25 * vs)
+    p_full = p_win * (1.0 - inp.partial_share)
+    p_partial = p_win * inp.partial_share
+    p_gap = p_loss * gap_share
+    p_stop = p_loss * (1.0 - gap_share)
 
     scenarios = (
         Scenario(
             "tesis_se_cumple", round(p_full, 6), inp.rr_target,
-            f"El precio alcanza el objetivo de {inp.rr_target:.1f}R. Camino principal "
-            f"de la tesis. Probabilidad {p_full:.1%} anclada en una tasa base de "
-            f"{hit:.0%} para conviccion {c}, no en optimismo.",
+            f"El precio alcanza el objetivo completo de {inp.rr_target:.1f}R. {hit_basis}",
         ),
         Scenario(
             "avance_parcial", round(p_partial, 6), inp.partial_r,
             f"Corre a favor, se toma parcial y el resto sale en breakeven: {inp.partial_r:+.1f}R. "
-            "Es el resultado mas frecuente de un trade 'que casi funciona'.",
+            f"Es el {inp.partial_share:.0%} de los aciertos: la mayoria de los trades que "
+            "funcionan no llegan al objetivo completo.",
         ),
         Scenario(
             "stop_limpio", round(p_stop, 6), -1.0,
-            "El stop se ejecuta a su precio: -1.00R exacto. Este es el caso BUENO "
-            "cuando el trade sale mal.",
+            "El stop se ejecuta a su precio: -1.00R exacto. Es el caso BUENO cuando sale mal.",
         ),
         Scenario(
             "stop_con_gap", round(p_gap, 6), -(1.0 + inp.gap_slippage_r),
-            f"El precio abre del otro lado del stop y la salida se ejecuta "
-            f"{inp.gap_slippage_r:.1f}R mas abajo: {-(1.0 + inp.gap_slippage_r):.2f}R. "
-            "Es el escenario que la gente olvida y el que define el tamano.",
+            f"El precio abre del otro lado del stop: {-(1.0 + inp.gap_slippage_r):.2f}R. "
+            f"Es el {gap_share:.0%} de las perdidas con el estres de volatilidad actual. "
+            "Es el escenario que define el tamano.",
         ),
         Scenario(
             "salida_por_tiempo", round(p_time, 6), inp.time_stop_r,
-            f"La tesis no se cumple en el plazo previsto y se cierra en {inp.time_stop_r:+.2f}R "
-            "(costos). Un trade que no funciona es un trade equivocado.",
+            f"La tesis no se materializa en el plazo y se cierra en {inp.time_stop_r:+.2f}R.",
         ),
     )
-    # Reparacion de redondeo sobre el camino mas probable, nunca sobre el peor.
     drift = 1.0 - sum(s.probability for s in scenarios)
     if abs(drift) > 1e-9:
         idx = max(range(len(scenarios)), key=lambda i: scenarios[i].probability)
         fixed = list(scenarios)
-        s = fixed[idx]
-        fixed[idx] = Scenario(s.name, s.probability + drift, s.r_multiple, s.description)
+        sc = fixed[idx]
+        fixed[idx] = Scenario(sc.name, sc.probability + drift, sc.r_multiple, sc.description)
         scenarios = tuple(fixed)
 
     return ScenarioTree(scenarios)
+
+
+def breakeven_hit_rate(inp: TreeInputs) -> float:
+    """
+    Tasa de acierto que hace EV = 0 con esta estructura de salidas.
+
+    Es EL numero que hay que mirar: si esta muy por encima de la tasa teorica
+    sin ventaja, el sistema esta exigiendose una ventaja que probablemente no
+    tiene.
+    """
+    active = 1.0 - inp.time_share
+    gap_share = min(0.6, inp.gap_share + 0.25 * max(0.0, min(1.0, inp.vol_stress)))
+    win_payoff = (1 - inp.partial_share) * inp.rr_target + inp.partial_share * inp.partial_r
+    loss_payoff = (1 - gap_share) * 1.0 + gap_share * (1.0 + inp.gap_slippage_r)
+    time_drag = inp.time_share * inp.time_stop_r
+    # active*(h*win - (1-h)*loss) + time_drag = 0
+    if active <= 0 or (win_payoff + loss_payoff) <= 0:
+        return 1.0
+    return (loss_payoff - time_drag / active) / (win_payoff + loss_payoff)
 
 
 @dataclass(frozen=True, slots=True)

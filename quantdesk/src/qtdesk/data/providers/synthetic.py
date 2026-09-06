@@ -75,14 +75,29 @@ class SyntheticWorld:
         return best
 
 
+# Universo sintetico ampliado. Mismo criterio que el universo real de
+# config.py: mas candidatos con la MISMA exigencia por candidato. La cantidad
+# de operaciones escala con el universo; el estandar por operacion, no.
 SECTORS = {
-    "SPY": "INDICE", "QQQ": "INDICE", "IWM": "INDICE",
+    "SPY": "INDICE", "QQQ": "INDICE", "IWM": "INDICE", "DIA": "INDICE",
     "XLK": "TECNOLOGIA", "XLF": "FINANCIERO", "XLE": "ENERGIA", "XLV": "SALUD",
-    "AAPL": "TECNOLOGIA", "MSFT": "TECNOLOGIA", "NVDA": "TECNOLOGIA",
-    "JPM": "FINANCIERO", "BAC": "FINANCIERO",
-    "XOM": "ENERGIA", "CVX": "ENERGIA",
-    "JNJ": "SALUD", "UNH": "SALUD",
-    "KO": "CONSUMO", "PG": "CONSUMO",
+    "XLI": "INDUSTRIAL", "XLY": "CONSUMO_DISC", "XLP": "CONSUMO", "XLU": "SERVICIOS",
+    "AAPL": "TECNOLOGIA", "MSFT": "TECNOLOGIA", "NVDA": "TECNOLOGIA", "AVGO": "TECNOLOGIA",
+    "ORCL": "TECNOLOGIA", "CRM": "TECNOLOGIA", "AMD": "TECNOLOGIA", "ADBE": "TECNOLOGIA",
+    "CSCO": "TECNOLOGIA", "TXN": "TECNOLOGIA", "QCOM": "TECNOLOGIA", "INTU": "TECNOLOGIA",
+    "JPM": "FINANCIERO", "BAC": "FINANCIERO", "GS": "FINANCIERO", "MS": "FINANCIERO",
+    "WFC": "FINANCIERO", "BLK": "FINANCIERO", "SCHW": "FINANCIERO", "AXP": "FINANCIERO",
+    "XOM": "ENERGIA", "CVX": "ENERGIA", "COP": "ENERGIA", "SLB": "ENERGIA",
+    "EOG": "ENERGIA", "MPC": "ENERGIA", "PSX": "ENERGIA", "VLO": "ENERGIA",
+    "JNJ": "SALUD", "UNH": "SALUD", "LLY": "SALUD", "ABBV": "SALUD",
+    "MRK": "SALUD", "PFE": "SALUD", "TMO": "SALUD", "ABT": "SALUD",
+    "KO": "CONSUMO", "PG": "CONSUMO", "PEP": "CONSUMO", "COST": "CONSUMO",
+    "WMT": "CONSUMO", "PM": "CONSUMO", "MDLZ": "CONSUMO", "CL": "CONSUMO",
+    "CAT": "INDUSTRIAL", "HON": "INDUSTRIAL", "GE": "INDUSTRIAL", "UNP": "INDUSTRIAL",
+    "RTX": "INDUSTRIAL", "DE": "INDUSTRIAL", "LMT": "INDUSTRIAL", "UPS": "INDUSTRIAL",
+    "HD": "CONSUMO_DISC", "MCD": "CONSUMO_DISC", "NKE": "CONSUMO_DISC", "SBUX": "CONSUMO_DISC",
+    "LOW": "CONSUMO_DISC", "TJX": "CONSUMO_DISC", "BKNG": "CONSUMO_DISC", "TGT": "CONSUMO_DISC",
+    "NEE": "SERVICIOS", "DUK": "SERVICIOS", "SO": "SERVICIOS", "AEP": "SERVICIOS",
 }
 
 
