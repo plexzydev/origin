@@ -80,10 +80,19 @@ class DecisionConfig:
     El umbral de conviccion. Es el unico dial que la cuota de frecuencia puede
     mover, y nunca por debajo de `absolute_floor_score`.
     """
-    threshold_score: float = 55.0            # umbral exigente (score combinado 0-100)
+    threshold_score: float = 55.0            # umbral inicial, antes de calibrar
     absolute_floor_score: float = 38.0       # piso duro: ni la cuota baja de aca
+    # El umbral real se calibra por PERCENTIL sobre las senales pasadas del
+    # propio sistema. Un numero absoluto sobre una escala sin calibrar no
+    # significa nada: ver engine/calibration.py.
+    use_calibrated_threshold: bool = True
+    threshold_percentile: float = 0.97       # solo el 3% mejor de las senales
+    calibration_warmup: int = 250
     min_aligned_layers: int = 3              # al menos 3 capas alineadas
     min_layer_conviction: float = 25.0       # |score| para contar como "alineada"
+    min_layer_confidence: float = 0.30       # una capa sin datos no "alinea" nada
+    # Cobertura de datos pobre no debilita la senal: sube la exigencia.
+    coverage_bump_max: float = 20.0
     min_expected_r: float = 0.20             # EV del arbol de escenarios, en R
     max_worst_case_equity_pct: float = 0.025 # el peor escenario no puede costar mas
     devils_advocate_blocking: str = "HIGH"   # severidad en pie que bloquea

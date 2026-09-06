@@ -145,16 +145,32 @@ def blend(parts: Sequence[tuple[str, float | None, float]]) -> tuple[float, floa
 
     `parts` = [(nombre, valor en [-100,100] o None, peso), ...]
 
-    Devuelve (score, cobertura, notas). La COBERTURA es la fraccion de peso
-    que efectivamente tenia dato: es lo que despues se usa como `confidence`.
-    Una capa que solo pudo evaluar 2 de 6 sub-senales tiene que pesar poco,
-    y este es el mecanismo que lo garantiza sin que cada capa lo reimplemente.
+    Devuelve (score, cobertura, notas).
+
+    DOS PROPIEDADES, y la segunda es la que evita un error estructural:
+
+    1. COBERTURA: fraccion del peso que efectivamente tenia dato. Se usa como
+       `confidence`. Una capa que solo pudo evaluar 2 de 6 sub-senales pesa poco.
+
+    2. COHERENCIA: el promedio simple aplasta todo hacia cero. Con 6 sub-senales,
+       una capa con estructura +80, momentum +60 y volumen +40 -- evidencia
+       fuerte y unanime -- daria 60, igual que una con +80 y +40 y dos en
+       contra. Eso hace que el score combinado nunca supere un umbral exigente
+       y el sistema no opere NUNCA por un artefacto aritmetico, no por prudencia.
+
+       Solucion: cuando las sub-senales COINCIDEN en signo, el score se corre
+       del promedio hacia la magnitud maxima, proporcionalmente al grado de
+       acuerdo. Con acuerdo total devuelve el maximo; con acuerdo nulo devuelve
+       el promedio. Evidencia coherente vale mas que la media de sus partes;
+       evidencia contradictoria no vale mas que su promedio.
     """
     total_w = sum(w for _, _, w in parts)
     if total_w <= 0:
         return 0.0, 0.0, ["sin sub-senales definidas"]
     acc = 0.0
     covered = 0.0
+    signed_w = 0.0
+    max_mag = 0.0
     notes: list[str] = []
     for name, val, w in parts:
         if val is None:
@@ -162,7 +178,14 @@ def blend(parts: Sequence[tuple[str, float | None, float]]) -> tuple[float, floa
             continue
         acc += val * w
         covered += w
+        signed_w += w * (1 if val > 0 else (-1 if val < 0 else 0))
+        max_mag = max(max_mag, abs(val))
         notes.append(f"{name}: {val:+.0f}")
     if covered <= 0:
         return 0.0, 0.0, notes
-    return acc / covered, covered / total_w, notes
+
+    mean = acc / covered
+    agreement = abs(signed_w) / covered          # 1 = unanime, 0 = empatado
+    boosted = mean + (max_mag - abs(mean)) * (agreement ** 2) * (1 if mean >= 0 else -1)
+    notes.append(f"acuerdo entre sub-senales {agreement:.0%}: {mean:+.0f} -> {boosted:+.0f}")
+    return max(-100.0, min(100.0, boosted)), covered / total_w, notes
