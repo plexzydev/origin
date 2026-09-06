@@ -46,7 +46,7 @@ DEFAULT_UNIVERSE = INDEX_ETFS + SECTOR_SPDRS + LARGE_CAPS
 class VetoConfig:
     """Cada campo corresponde a uno de los filtros de CAPA 0."""
     vix_extreme: float = 32.0                     # regimen de volatilidad extrema
-    vix_backwardation_bps: float = -3.0           # front - next < esto => backwardation fuerte
+    vix_backwardation_points: float = 1.5         # VIX - VIX3M >= esto => backwardation fuerte
     hy_spread_widen_bps_5d: float = 60.0          # ampliacion rapida de high yield
     hy_spread_absolute_bps: float = 700.0         # nivel absoluto de estres
     macro_event_window_hours: int = 48            # evento macro programado
@@ -65,6 +65,9 @@ class VetoConfig:
     contradiction_score: float = 50.0             # dos capas opuestas y fuertes
     holiday_lookahead_days: int = 4               # fin de semana largo / feriado
     max_trades_per_week: int = 6                  # sobreoperacion => pausa obligatoria
+    # Si demasiados chequeos no se pueden correr por falta de datos, eso ES un
+    # veto: un riesgo que no se puede medir no es un riesgo chico.
+    max_skipped_checks: int = 3
 
 
 # ---------------------------------------------------------------------------
